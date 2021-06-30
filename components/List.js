@@ -1,25 +1,39 @@
-import React from 'react';
-import { View, StyleSheet, FlatList, Image } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, FlatList, Image, Text } from 'react-native';
+import { gql, useQuery } from "@apollo/react-hooks";
 
+import LottieView from 'lottie-react-native';
+
+import appContext from '../context/appContext';
 import AppScreen from './AppScreen';
 import ListItem from './ListItem';
 
 const List = ({ navigation }) => {
-    const list = [
-        { id: "1", title: 'Item1', subTitle: 'sub Title1' },
-        { id: "2", title: 'Item2', subTitle: 'sub Title2' },
-        { id: "3", title: 'Item3', subTitle: 'sub Title3' },
-        { id: "4", title: 'Item4', subTitle: 'sub Title4' },
-        { id: "5", title: 'Item5', subTitle: 'sub Title5' },
-        { id: "6", title: 'Item6', subTitle: 'sub Title6' },
-        { id: "7", title: 'Item7', subTitle: 'sub Title7' }
-
-    ];
+    var list;
+    const AppContext = React.useContext(appContext);
+    const GET_PRODUCTS = gql`
+       query{
+        get_products_delta(last_updated: ""){
+            last_updated
+            products {
+            id
+            brand_name
+            display_name
+            price
+            brand_image
+            max_qty
+            }
+          }
+       } `
+       const {data, loading, error} = useQuery(GET_PRODUCTS);
+       if(loading && !data)
+        return <LottieView source={require("../assets/groceries-basket.json")} autoPlay loop />
+        
     return (
         <AppScreen>
             <View style={styles.container}>
                 <Image resizeMode="contain" source={require("../assets/image.jpeg")} style={styles.image} />
-                <FlatList data={list} renderItem={({ item }) => <ListItem item={item} />} />
+                <FlatList data={data.get_products_delta.products} renderItem={({ item }) => <ListItem item={item} />} />
             </View>
         </AppScreen>
     )

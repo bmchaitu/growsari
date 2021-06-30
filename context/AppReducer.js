@@ -10,6 +10,10 @@ const AppReducer = (state, action) => {
             token: null,
             user: ''
         }
+        case "LOAD_LIST" : return {
+            ...state,
+            list : action.payload.list
+        };
         default: return {
             ...state
         }
