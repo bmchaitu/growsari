@@ -4,9 +4,9 @@ import { Text, View, StyleSheet, Image, TouchableWithoutFeedback } from 'react-n
 import AppScreen from './AppScreen';
 
 
-const ListItem = ({ item }) => {
+const ListItem = ({ item, onPress }) => {
     return (
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.listitem}>
                 <View style={styles.imageContainer}>
                     <Image source={require("../assets/list.jpg")} style={styles.image} />
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         width:'70%'
     },
     text: {
-        fontSize: 13,
+        fontSize: 15,
         fontWeight: '900',
         flexWrap:'wrap',
         width:'70%'

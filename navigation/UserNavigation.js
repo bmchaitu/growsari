@@ -13,7 +13,7 @@ const UserNavigation = () => {
     return (
         <Tab.Navigator tabBarOptions={{
             activeTintColor: "#EF4F4F",
-            inactiveTintColor: "gray",
+            inactiveTintColor: "#92967D",
             labelStyle: {
                 color: "black"
             }

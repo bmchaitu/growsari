@@ -9,7 +9,8 @@ export default (props) => {
     const initialState = {
         user: '',
         list: [],
-        token: null
+        token: null,
+        cart:[]
     }
 
     const [state, dispatch] = React.useReducer(AppReducer, initialState);
@@ -31,17 +32,24 @@ export default (props) => {
         })
     };
 
-    
+    const addToCart = (product) => {
+        dispatch({
+            type:"ADD_TO_CART",
+            payload:{product}
+        })
+    };
 
-    const { user, token, list } = state;
+    const { user, token, list, cart } = state;
 
     return (
         <AppContext.Provider value={{
             user,
             token,
             list,
+            cart,
             Authenticate,
             logOut,
+            addToCart
         }}>
             {props.children}
         </AppContext.Provider>

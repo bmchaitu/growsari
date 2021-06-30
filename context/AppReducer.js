@@ -14,6 +14,13 @@ const AppReducer = (state, action) => {
             ...state,
             list : action.payload.list
         };
+        case "ADD_TO_CART" : 
+            const prevProducts = state.cart;
+            const filtered = prevProducts.filter((p) => p.id !== action.payload.product.id);
+            return{
+             ...state,
+            cart : filtered.concat(action.payload.product)
+        };
         default: return {
             ...state
         }
