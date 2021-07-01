@@ -39,6 +39,21 @@ export default (props) => {
         })
     };
 
+    const removeFromCart = (product) =>{
+        dispatch({
+            type:"REMOVE_FROM_CART",
+            payload: {
+                product
+            }
+        })
+    }
+
+    const loadCart = (items) => {
+        dispatch({
+            type:"LOAD_CART",
+            payload:{items}
+        })
+    };
     const { user, token, list, cart } = state;
 
     return (
@@ -49,7 +64,9 @@ export default (props) => {
             cart,
             Authenticate,
             logOut,
-            addToCart
+            addToCart,
+            removeFromCart,
+            loadCart
         }}>
             {props.children}
         </AppContext.Provider>

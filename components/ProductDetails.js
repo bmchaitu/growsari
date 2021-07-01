@@ -12,6 +12,11 @@ const ProductDetails = ({modalVisibility, handleToggle, product}) => {
         setCount(1);
         handleToggle(false);
     };
+
+    const handleAddToCart = (obj) => {
+        AppContext.addToCart(obj);
+        handleToggle(false);
+    }
     return(
         <View>
             <Modal transparent visible={modalVisibility} animationType="slide" >
@@ -39,9 +44,9 @@ const ProductDetails = ({modalVisibility, handleToggle, product}) => {
                             </View>
                             <View style={{flexDirection:'row', marginTop:20, margin:10}}>
                             <Button onPress={handleClose} buttonStyle={styles.buttons} title="Close"/>
-                            <Button buttonStyle={{width:200,height:30,margin:10,backgroundColor:'#BF1363'}} 
+                            <Button buttonStyle={{width:200,height:40,margin:10,backgroundColor:'#BF1363'}} 
                                     title="Add To Cart" 
-                                    onPress={() => AppContext.addToCart({...product, count})}
+                                    onPress={() => handleAddToCart({...product, count})}
                                     />
                             </View>
                         </View>
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
     buttons:{
         backgroundColor:'blue',
         width:100,
-        height:30,
+        height:40,
         margin:10
     },
     buttonContainer:{
