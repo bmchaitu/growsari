@@ -27,6 +27,7 @@ export default (props) => {
 
     const logOut = () => {
         AsyncStorage.removeItem('UserData');
+        AsyncStorage.removeItem('Cart');
         dispatch({
             type: 'LOG_OUT',
         })

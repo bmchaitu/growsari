@@ -36,7 +36,7 @@ const Cart = () => {
 
     return(
         <AppScreen>
-            {AppContext.cart.length === 0 ? <AppScreen style={styles.noItems}><Text>No Items in cart</Text></AppScreen> : <FlatList data={AppContext.cart} renderItem={cartItem} />}
+            {AppContext.cart.length === 0 ? <AppScreen style={styles.noItems}><Text style={{fontSize:25}}>No Items in cart</Text></AppScreen> : <FlatList data={AppContext.cart} renderItem={cartItem} />}
         </AppScreen>
     )
 };

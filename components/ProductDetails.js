@@ -15,41 +15,57 @@ const ProductDetails = ({modalVisibility, handleToggle, product}) => {
 
     const handleAddToCart = (obj) => {
         AppContext.addToCart(obj);
+        setCount(1);
         handleToggle(false);
     }
+    
+    const handleIncrease = (max) => {
+        if(count == max)
+        setCount(max);
+        else
+        setCount((c) => c+1)
+    }
+
+    const handleDecrease = () => {
+        if(count == 1)
+        setCount(1);
+        else
+        setCount((c) => c-1);
+    }
+
     return(
         <View>
             <Modal transparent visible={modalVisibility} animationType="slide" >
                     <View style={styles.modal}>
-                        <View style={{backgroundColor:"#3EDBF0", borderRadius:30}}>
-                        <View style={{backgroundColor:"#3EDBF0", borderRadius:20,padding:10}}>
-                        <Image source={require('../assets/grocery-bag.png')} style={styles.image} />
-                        </View>
-                        <View style={styles.details}>
-                            <Text style={styles.pname}>{product.display_name}</Text>    
-                            <Text style={{fontSize:16}}>Rs. {product.price} per quantity</Text>
-                            <View style={styles.buttonContainer}>
-                                <Text style={{fontSize:16}}>Quantity: </Text>
-                                <View style={styles.button}>
-                                    <TouchableWithoutFeedback onPress={() => setCount((c) => c+1)}>
-                                        <MaterialCommunityIcons name={"plus"} size={20}/>
+                        <View>
+                            <View style={{ borderRadius:20,padding:10}}>
+                                <Image source={require('../assets/grocery-bag.png')} style={styles.image} />
+                            </View>
+                            <View style={styles.details}>
+                                <Text style={styles.pname}>{product.display_name}</Text>    
+                                <Text style={{fontSize:16}}>Rs. {product.price} per quantity</Text>
+                                <View style={styles.buttonContainer}>
+                                    <Text style={{fontSize:16}}>Quantity: </Text>
+                                    <View style={styles.button}>
+                                        <TouchableWithoutFeedback onPress={() => handleIncrease(product.max_quantity)}>
+                                            <MaterialCommunityIcons name={"plus"} size={20}/>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                    <Text style={{fontSize:18, marginHorizontal:8}}>{count}</Text>
+                                    <TouchableWithoutFeedback onPress={handleDecrease}>
+                                        <View style={styles.button}>
+                                            <MaterialCommunityIcons name={"minus"} size={20}/>
+                                        </View>
                                     </TouchableWithoutFeedback>
                                 </View>
-                                <Text style={{fontSize:18, marginHorizontal:8}}>{count}</Text>
-                                <TouchableWithoutFeedback onPress={() => setCount((c) => c-1)}>
-                                <View style={styles.button}>
-                                    <MaterialCommunityIcons name={"minus"} size={20}/>
-                                </View>
-                                </TouchableWithoutFeedback>
-                            </View>
-                            <View style={{flexDirection:'row', marginTop:20, margin:10}}>
-                            <Button onPress={handleClose} buttonStyle={styles.buttons} title="Close"/>
-                            <Button buttonStyle={{width:200,height:40,margin:10,backgroundColor:'#BF1363'}} 
+                                <View style={{flexDirection:'row', marginTop:20, margin:10}}>
+                                    <Button onPress={handleClose} buttonStyle={styles.buttons} title="Close"/>
+                                    <Button buttonStyle={{width:200,height:40,margin:10,backgroundColor:'#BF1363'}} 
                                     title="Add To Cart" 
                                     onPress={() => handleAddToCart({...product, count})}
                                     />
+                                </View>
                             </View>
-                        </View>
                         </View>
                     </View>    
                 </Modal>
