@@ -2,16 +2,23 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, FlatList } from 'react-native';
 import {Button} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/core';
 
 import AppScreen from '../components/AppScreen';
 import appContext from '../context/appContext';
 
 const Cart = () => {
+    const navigation = useNavigation();
     const [isVisible, setVisible] = React.useState(true);
     const AppContext = React.useContext(appContext);
     const handleDelete = (item) => {
         AppContext.removeFromCart(item);
     }
+    const handleBuyNow = (item) => {
+        AppContext.takeOrder(item);
+        navigation.navigate("arrivals");
+    }
+
     const cartItem = ({item}) => {
         return(<View style={styles.item}>
             <Image 
@@ -30,13 +37,14 @@ const Cart = () => {
                     Gross Price: {(item.count * item.price).toFixed(2)}
                 </Text>
                 <Button onPress={() => handleDelete(item)} buttonStyle={styles.button} title="Delete"/>
+                <Button onPress={() => handleBuyNow(item)} buttonStyle={[styles.button, {backgroundColor:'#CD113B'}]} title="Order Now"/>
             </View>
             </View>)
     }
 
     return(
         <AppScreen>
-            {AppContext.cart.length === 0 ? <AppScreen style={styles.noItems}><Text style={{fontSize:25}}>No Items in cart</Text></AppScreen> : <FlatList data={AppContext.cart} renderItem={cartItem} />}
+            {AppContext.cart.length === 0 ? <AppScreen style={styles.noItems}><Text style={{fontSize:25}}>No Items in cart</Text></AppScreen> : <View style={{marginBottom:100}}><FlatList data={AppContext.cart} renderItem={cartItem} /><Button title="Order All Items"/></View>}
         </AppScreen>
     )
 };
@@ -44,7 +52,7 @@ const Cart = () => {
 const styles = StyleSheet.create({
 button:{
     height:40,
-    width:100,
+    width:120,
     marginTop:10
 },
     image : {

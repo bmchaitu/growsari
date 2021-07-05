@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View, TextInput, Alert, TouchableWithoutFeedback } from 'react-native';
 import { Text, Button } from 'react-native-elements';
-import { useMutation, gql } from "@apollo/react-hooks";
+import { gql, useMutation } from '@apollo/client';
 import LottieView from 'lottie-react-native';
 
 import AppScreen from '../components/AppScreen';

@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import {Octicons, MaterialCommunityIcons} from 'react-native-vector-icons'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import AppScreen from './AppScreen';
 import ItemComponent from './ItemComponent';
 import appContext from '../context/appContext';
+
 const User = () => {
     const navigation = useNavigation();
     const AppContext = React.useContext(appContext);
@@ -26,6 +29,16 @@ const User = () => {
             </View>
             <View style={styles.lineBreak} />
             <View style={styles.options}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate("Orders")}>
+                <View style={{ flexDirection: 'row',
+                                height: 50,
+                                width: '100%',
+                                alignItems: 'center',}}>
+                    <Octicons name="package" size={35}/>
+                    <Text style={{ flex: 1, fontSize: 18, marginLeft: 5 }}> My orders</Text>
+                    <MaterialCommunityIcons name="chevron-right" size={25} />
+                </View>
+                </TouchableWithoutFeedback>
                 <ItemComponent iconLabel="Settings" iconName="settings-applications" left={true} />
                 <ItemComponent iconName="format-list-bulleted" iconLabel="Options" left={true} />
                 <ItemComponent iconName="help" iconLabel="Help" left={true} />
@@ -58,6 +71,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: "#EF4F4F",
         borderRadius: 10
+    },
+    item: {
+        flexDirection: 'row',
+        height: 50,
+        width: '100%',
+        alignItems: 'center',
     },
     details: {
         justifyContent: 'center',

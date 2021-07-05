@@ -16,6 +16,7 @@ const AppNavigation = (props) => {
             const data = JSON.parse(res);
             AppContext.Authenticate({ verify_otp: data });
             const prevCart = await AsyncStorage.getItem('Cart');
+            if(prevCart)
             AppContext.loadCart(JSON.parse(prevCart));
         }
     };

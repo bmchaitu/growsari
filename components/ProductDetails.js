@@ -37,8 +37,8 @@ const ProductDetails = ({modalVisibility, handleToggle, product}) => {
         <View>
             <Modal transparent visible={modalVisibility} animationType="slide" >
                     <View style={styles.modal}>
-                        <View>
-                            <View style={{ borderRadius:20,padding:10}}>
+                        <View style={{backgroundColor:"#3EDBF0",borderTopRadius:20,padding:10, borderColor:'black', borderWidth:3}}>
+                            <View style={{ backgroundColor:"#3EDBF0",}}>
                                 <Image source={require('../assets/grocery-bag.png')} style={styles.image} />
                             </View>
                             <View style={styles.details}>

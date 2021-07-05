@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableWithoutFeedback, ActivityIndicator, View, Button, Image, Alert } from 'react-native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
-import { useMutation, gql } from "@apollo/react-hooks";
+import { gql, useMutation } from '@apollo/client';
 import LottieView from 'lottie-react-native';
 
 import AppInput from '../components/AppInput';

@@ -38,10 +38,22 @@ const AppReducer = (state, action) => {
                 ...state,
                 cart : [...action.payload.items]
             }
+            case "PUT_ORDER" : 
+                const neworder = [];
+                neworder.push(action.payload.item);
+            return {
+                ...state,
+                orders : {products : [...neworder]}
+            }
+
+            case "PUT_DATE" : 
+                return{
+                    ...state,
+                    orders : {...state.orders, deliveryDate : action.payload.date, orderedDate : new Date()}
+                }
 
         default: return {
-            ...state,
-            
+            ...state
         }
     }
 };

@@ -10,7 +10,8 @@ export default (props) => {
         user: '',
         list: [],
         token: null,
-        cart:[]
+        cart:[],
+        orders:{products:[], orderedDate:null, deliveryDate:null}
     }
 
     const [state, dispatch] = React.useReducer(AppReducer, initialState);
@@ -29,7 +30,7 @@ export default (props) => {
         AsyncStorage.removeItem('UserData');
         AsyncStorage.removeItem('Cart');
         dispatch({
-            type: 'LOG_OUT',
+            type: 'LOG_OUT'
         })
     };
 
@@ -55,7 +56,24 @@ export default (props) => {
             payload:{items}
         })
     };
-    const { user, token, list, cart } = state;
+
+    const takeOrder = (item) => {
+        dispatch({
+            type: "PUT_ORDER",
+            payload : {
+                item
+            }
+        })
+    };
+    const takeDate = (date) => {
+        dispatch({
+            type: "PUT_DATE",
+            payload : {
+                date
+            }
+        })
+    }
+    const { user, token, list, cart, orders } = state;
 
     return (
         <AppContext.Provider value={{
@@ -63,11 +81,14 @@ export default (props) => {
             token,
             list,
             cart,
+            orders,
             Authenticate,
             logOut,
             addToCart,
             removeFromCart,
-            loadCart
+            loadCart,
+            takeOrder,
+            takeDate
         }}>
             {props.children}
         </AppContext.Provider>

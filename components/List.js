@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, Image, Text, Modal } from 'react-native';
-import { gql, useQuery } from "@apollo/react-hooks";
+import { gql, useQuery } from '@apollo/client';
 import {Button} from 'react-native-elements';
 import LottieView from 'lottie-react-native';
 
