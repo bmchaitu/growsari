@@ -20,19 +20,28 @@ const Arrival = () => {
     setDate(currentDate);
   };
   const handleClick = () => {
-    AppContext.takeDate(date);
+    AppContext.takeDate(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
+    setDate(new Date());
     navigation.navigate("checkout");
-
   }
+  React.useEffect(() => {
+    if(AppContext.orders.products.length === 0)
+    navigation.navigate('Home');
+  }, [])
   return (
     <AppScreen style={styles.screen}>
+      <View style={styles.header}>
+      <Text style={styles.headerText}>Shipping Date</Text>
+      </View>
       <Text style={styles.text}>
           Select the date on what day the products should be delivered
       </Text>
       <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', marginTop:10}}>
+        <View style={{borderWidth:2, borderRadius:10, margin:5, paddingHorizontal:10, height:40, alignItems:'center', justifyContent:'center'}}>
         <Text style={styles.date}>
           {date.getDate()} - {date.getMonth()} - {date.getFullYear()}
         </Text>
+        </View>
         <Button buttonStyle={styles.button} onPress={() => setShow(true)} title="Select Date" />
       </View>
       {show && (
@@ -43,6 +52,7 @@ const Arrival = () => {
           display="default"
           onChange={onChange}
           minimumDate={new Date()}
+          maximumDate={new Date(new Date().setDate(new Date().getDate() + 5))}
         />
       )}
       <View style={styles.buttonContainer}>
@@ -71,12 +81,21 @@ const styles = StyleSheet.create({
   date:{
     fontSize:18,
     fontWeight:'bold',
-    marginRight:10
+    marginRight:10,
+  },
+  header:{
+    height:40,
+    width:"100%",
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:"#FFE2E2"
+  },
+  headerText:{
+    fontSize:20
   },
 screen:{
         backgroundColor:"#3EDBF0", 
         flex:1, 
-        justifyContent:'center', 
         alignItems:'center',
       },
       text:{

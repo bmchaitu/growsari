@@ -21,8 +21,6 @@ const UserNavigation = () => {
                 color: "black"
             }
         }}>
-            <Tab.Screen name="checkout" component={CheckOut} />
-            <Tab.Screen name="arrivals" component={Arrival} />
             <Tab.Screen name="Home" component={List} options={{
                 tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" size={25} color={color} />
             }} />
@@ -37,6 +35,16 @@ const UserNavigation = () => {
                     <View style={{width:0, height:0}}></View>
                 )
             }} />
+            <Tab.Screen name="checkout" component={CheckOut} options={{
+                tabBarButton: () => (
+                    <View style={{width:0, height:0}}></View>
+                )
+            }}/>
+            <Tab.Screen name="arrivals" component={Arrival} options={{
+                tabBarButton: () => (
+                    <View style={{width:0, height:0}}></View>
+                )
+            }}/>
 
             
         </Tab.Navigator>

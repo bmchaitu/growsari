@@ -2,6 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from 'react';
 import { Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Font from 'expo-font';
+import LottieView from 'lottie-react-native';
 
 import AuthNavigation from "./AuthNavigation";
 import appContext from '../context/appContext';

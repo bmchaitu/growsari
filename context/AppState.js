@@ -11,7 +11,8 @@ export default (props) => {
         list: [],
         token: null,
         cart:[],
-        orders:{products:[], orderedDate:null, deliveryDate:null}
+        orders:{products:[], orderedDate:null, deliveryDate:null},
+        prevOrders:[]
     }
 
     const [state, dispatch] = React.useReducer(AppReducer, initialState);
@@ -65,6 +66,12 @@ export default (props) => {
             }
         })
     };
+    const takeOrders = (items) => {
+        dispatch({
+            type:"PUT_ORDERS",
+            payload :{items}
+        })
+    }
     const takeDate = (date) => {
         dispatch({
             type: "PUT_DATE",
@@ -73,7 +80,24 @@ export default (props) => {
             }
         })
     }
-    const { user, token, list, cart, orders } = state;
+    const loadOrders = async () => {
+        const res = await fetch("https://growsari-cf088-default-rtdb.firebaseio.com/orders.json")
+        const data = await res.json();
+        let a=[]
+        Object.keys(data).forEach((e) => {
+            data[e].products.forEach((p) => {
+                a.push({...p, orderId:e, id : p.id + e, orderedOn:data[e].orderedDate, DeliveredOn:data[e].deliveryDate})
+            })
+        });
+        dispatch({
+            type:"LOAD_ORDERS",
+            payload:{
+                a
+            }
+        })
+    }
+    const makeOrder =  () => {}
+    const { user, token, list, cart, orders, prevOrders } = state;
 
     return (
         <AppContext.Provider value={{
@@ -82,13 +106,17 @@ export default (props) => {
             list,
             cart,
             orders,
+            prevOrders,
             Authenticate,
             logOut,
             addToCart,
             removeFromCart,
             loadCart,
             takeOrder,
-            takeDate
+            takeDate,
+            makeOrder,
+            takeOrders,
+            loadOrders,
         }}>
             {props.children}
         </AppContext.Provider>

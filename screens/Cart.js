@@ -16,9 +16,13 @@ const Cart = () => {
     }
     const handleBuyNow = (item) => {
         AppContext.takeOrder(item);
+        AppContext.removeFromCart(item);
         navigation.navigate("arrivals");
     }
-
+    const buyAll = () => {
+        AppContext.takeOrders(AppContext.cart);
+        navigation.navigate("arrivals")
+    }
     const cartItem = ({item}) => {
         return(<View style={styles.item}>
             <Image 
@@ -44,7 +48,18 @@ const Cart = () => {
 
     return(
         <AppScreen>
-            {AppContext.cart.length === 0 ? <AppScreen style={styles.noItems}><Text style={{fontSize:25}}>No Items in cart</Text></AppScreen> : <View style={{marginBottom:100}}><FlatList data={AppContext.cart} renderItem={cartItem} /><Button title="Order All Items"/></View>}
+            {
+                AppContext.cart.length === 0 ? 
+                    <AppScreen style={styles.noItems}>
+                        <Text style={{fontSize:25}}>
+                            No Items in cart
+                        </Text>
+                    </AppScreen> : 
+                    <View style={{marginBottom:100}}>
+                        <FlatList data={AppContext.cart} renderItem={cartItem} />
+                        <Button title="Order All Items" buttonStyle={{marginTop:10}} onPress={buyAll}/>
+                    </View>
+            }
         </AppScreen>
     )
 };
@@ -71,7 +86,7 @@ item:{
 itemDetails:{
     margin:10,
     width:'100%',
-    flex:1
+    flex:1,
 },
 noItems:{
     alignItems:'center',
