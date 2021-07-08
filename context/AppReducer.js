@@ -47,11 +47,9 @@ const AppReducer = (state, action) => {
             }
 
             case "PUT_ORDERS" : 
-            AsyncStorage.removeItem('Cart');
             return{
                 ...state,
                 orders : {products:[...action.payload.items]},
-                cart: []
             }
             case "LOAD_ORDERS" : return {
                 ...state,
@@ -67,6 +65,16 @@ const AppReducer = (state, action) => {
                         orderedDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
                     }
                 }
+            case "EMPTY_CART" : 
+            AsyncStorage.removeItem('Cart');
+            return{
+                ...state,
+                cart : []
+            }
+            case "REMOVE_ORDERS" : return{
+                ...state,
+                orders :{products:[], orderedDate:null, deliveryDate:null}
+            }
         default: return {
             ...state
         }

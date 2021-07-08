@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { RadioButton } from 'react-native-paper';
+import {Button} from 'react-native-elements';
 import LottieView from 'lottie-react-native';
 
 import AppScreen from '../components/AppScreen';
@@ -8,12 +10,9 @@ import appContext from '../context/appContext';
 
 const CheckOut = () => {
     const [loading, setLoading] = React.useState(false);
+    const [checked, setChecked] = React.useState("first");
     const navigation = useNavigation();
     const AppContext = React.useContext(appContext);
-    React.useEffect(() => {
-        if(AppContext.orders.products.length === 0)
-        navigation.navigate('Home');
-      }, [])
     let total = 0;
     AppContext.orders.products.forEach(element => {
         total += (element.count*element.price)
@@ -31,6 +30,11 @@ const CheckOut = () => {
                 deliveryDate : AppContext.orders.deliveryDate
             }),
         });
+        if(AppContext.orders.products.length === 1)
+        AppContext.removeFromCart(AppContext.orders.products[0])
+        else
+        AppContext.emptyCart();
+        AppContext.removeOrders();
         await AppContext.loadOrders();
         setLoading(false);
         navigation.navigate("Home");
@@ -47,15 +51,53 @@ const CheckOut = () => {
             <View style={styles.view}>
             <Text style={styles.text}>Total Products Ordered: {AppContext.orders.products.length}</Text>
             <Text style={styles.text}>Ordered On: {AppContext.orders.orderedDate}</Text>
-            <Text style={styles.text}>To be Delivered On:{AppContext.orders.deliveryDate}</Text>
+            <Text style={styles.text}>To be Delivered On: {AppContext.orders.deliveryDate}</Text>
             <Text style={styles.text}>Payable Amount: {total}</Text>
+            <View style={{ borderRadius:20, borderWidth:2, marginTop:30}}>
+                <Text style={[styles.text, {textAlign:'center', marginTop:10}]}>
+                    Select Payment Type
+                </Text>
+                <View style={{flexDirection:'row', padding:10}}>
+                    <RadioButton
+                        value="first"
+                        status={ checked === 'first' ? 'checked' : 'unchecked' }
+                        onPress={() => setChecked('first')}
+                    />
+                    <Text style={{fontSize:16, alignSelf:'center'}}>
+                        Make Payment with Debit Card
+                    </Text>
+                </View>
+                <View style={{flexDirection:'row',padding:10}}>
+                    <RadioButton
+                        value="second"
+                        status={checked === 'second' ? 'checked' : 'unchecked' }
+                        onPress={() => setChecked('second')}
+                    />
+                    <Text style={{fontSize:16, alignSelf:'center'}}>
+                        Make Payment with UPI
+                    </Text>
+                </View>
+                <View style={{flexDirection:'row',padding:10}}>
+                    <RadioButton
+                        value="third"
+                        status={checked === 'third' ? 'checked' : 'unchecked' }
+                        onPress={() => setChecked('third')}
+                    />
+                    <Text style={{fontSize:16, alignSelf:'center'}}>
+                        Make Payment through Online Banking
+                    </Text>
+                </View>
             </View>
-            <Button title="Proceed" onPress={handleOrder}/>
+            </View>
+            <Button title="Proceed" buttonStyle={styles.button} onPress={handleOrder}/>
         </AppScreen>
     )
 };
 
 const styles = StyleSheet.create({
+    button:{
+        marginTop:20
+    },
     header:{
         height:40,
         width:"100%",
@@ -78,7 +120,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#fff",
         width:"90%",
         paddingHorizontal:10,
-        marginBottom:"20%",
         borderRadius:5,
         marginTop:20,
         padding:10

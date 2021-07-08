@@ -10,6 +10,7 @@ import Cart from '../screens/Cart';
 import Order from '../components/Order';
 import TabBarButton from './TabBarButton';
 import CheckOut from '../screens/CheckOut';
+import Listings from '../components/Listings';
 
 const UserNavigation = () => {
     const Tab = createBottomTabNavigator();
@@ -41,6 +42,11 @@ const UserNavigation = () => {
                 )
             }}/>
             <Tab.Screen name="arrivals" component={Arrival} options={{
+                tabBarButton: () => (
+                    <View style={{width:0, height:0}}></View>
+                )
+            }}/>
+            <Tab.Screen name="listings" component={Listings} options={{
                 tabBarButton: () => (
                     <View style={{width:0, height:0}}></View>
                 )

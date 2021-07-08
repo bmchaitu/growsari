@@ -16,7 +16,6 @@ const Cart = () => {
     }
     const handleBuyNow = (item) => {
         AppContext.takeOrder(item);
-        AppContext.removeFromCart(item);
         navigation.navigate("arrivals");
     }
     const buyAll = () => {

@@ -1,12 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, RefreshControl} from 'react-native';
 
 import appContext from '../context/appContext';
 
 import AppScreen from './AppScreen';
 const Order = () => {
-        const AppContext = React.useContext(appContext)
-        
+    const AppContext = React.useContext(appContext)
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = () => {
+        setRefreshing(true);
+        AppContext.loadOrders();
+        setRefreshing(false);
+    }
     React.useEffect(() => {
         AppContext.loadOrders();
     },[]);
@@ -17,21 +22,45 @@ const Order = () => {
                 Orders List
             </Text>
         </View>
-        <FlatList data={AppContext.prevOrders} renderItem={({item}) => {
+        <FlatList 
+        refreshControl={
+            <RefreshControl onRefresh={onRefresh} 
+                            refreshing={refreshing}
+            />
+        } 
+        data={AppContext.prevOrders} 
+        renderItem={({item: order}) => {
             return(
-                <View style={styles.listItem}>
-                <View>
-                    <Image source={require('../assets/Package.png')} style={styles.image} />
+                <View style={{ borderRadius:5,
+                    marginHorizontal:18,
+                    marginVertical:2.5,
+                    padding:5,
+                    width:"90%",}}>
+                    <View style={styles.listItem}>
+                        <View style={{flexDirection:'column', marginLeft:10, flex:1,}}>
+                            <Text style={[styles.text, {fontSize:15, fontWeight:'bold'}]}>Order Id#: {order.id}</Text>
+                            <Text style={styles.text}>Ordered On: {order.deliveryDate}</Text>
+                            <Text style={styles.text}>Delivery On: {order.orderedDate}</Text>
+                        </View>
+                    </View>
+                    <View style={{backgroundColor:"#FFF", padding:10}}>
+                        <Text style={{textAlign:'center', fontWeight:"bold"}}>Product(s) List</Text>
+                    {
+                order.products.map((p) => (
+                    <View key={p.id} style={{backgroundColor:"#fff",borderWidth:1, borderRadius:5,padding:3, marginTop:5, flexDirection:"row",}}>
+                        <View>
+                            <Image source={require('../assets/Package.png')} style={{height:50, width:50}}/>
+                        </View>
+                        <View style={{flex:1}}>
+                        <Text style={{flexWrap:"wrap", fontSize:15}}>Product Name: {p.display_name}</Text>
+                        <Text style={styles.text}>Product Price: {p.price}</Text>
+                        <Text style={styles.text}>Quantity Bought: {p.count}</Text>
+                        </View>
+                    </View>
+                ))
+                }
+                    </View>
                 </View>
-                <View style={{flexDirection:'column', marginLeft:10, flex:1}}>
-                <Text style={[styles.text, {fontSize:15}]}>Order Id#: {item.orderId}</Text>
-                <Text style={styles.text}>{item.display_name}</Text>
-                <Text style={styles.text}>Count: {item.count}</Text>
-                <Text style={styles.text}>Gross: {(item.count*item.price).toFixed(2)}</Text>
-                <Text style={styles.text}>Ordered On: {item.orderedOn}</Text>
-                <Text style={styles.text}>Delivery On: {item.DeliveredOn}</Text>
-                </View>
-            </View>
             )
         }} />
      </AppScreen>
@@ -53,12 +82,6 @@ const styles = StyleSheet.create({
     },
     listItem:{
         backgroundColor:"#fff",
-        borderRadius:5,
-        marginHorizontal:18,
-        marginVertical:10,
-        padding:5,
-        width:"90%",
-        flexDirection:'row',
     },
     image:{
         height:90,

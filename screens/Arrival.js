@@ -22,7 +22,7 @@ const Arrival = () => {
   const handleClick = () => {
     AppContext.takeDate(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
     setDate(new Date());
-    navigation.navigate("checkout");
+    navigation.navigate("listings");
   }
   React.useEffect(() => {
     if(AppContext.orders.products.length === 0)

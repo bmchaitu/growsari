@@ -85,9 +85,7 @@ export default (props) => {
         const data = await res.json();
         let a=[]
         Object.keys(data).forEach((e) => {
-            data[e].products.forEach((p) => {
-                a.push({...p, orderId:e, id : p.id + e, orderedOn:data[e].orderedDate, DeliveredOn:data[e].deliveryDate})
-            })
+            a.push({...data[e], id : e, key:e})
         });
         dispatch({
             type:"LOAD_ORDERS",
@@ -97,6 +95,17 @@ export default (props) => {
         })
     }
     const makeOrder =  () => {}
+    const emptyCart = () => {
+        dispatch({
+            type:"EMPTY_CART"
+        })
+    }
+
+    const removeOrders = () => {
+        dispatch({
+            type:"REMOVE_ORDERS"
+        })
+    }
     const { user, token, list, cart, orders, prevOrders } = state;
 
     return (
@@ -117,6 +126,8 @@ export default (props) => {
             makeOrder,
             takeOrders,
             loadOrders,
+            emptyCart,
+            removeOrders
         }}>
             {props.children}
         </AppContext.Provider>

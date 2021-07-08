@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
         alignItems:'center',
         backgroundColor:"#EF4F4F",
         borderColor:'black',
-        borderRadius : 35,
+        borderRadius : 30,
         borderWidth:5,
-        bottom:25,
-        height:70,
+        bottom:15,
+        height:60,
         justifyContent:'center',
-        width:70
+        width:60
     }
 });
 
